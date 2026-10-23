@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from .facelets import SOLVED
 from .moves import MOVES, parse
+from .validation import validate
 
 
 @dataclass(frozen=True)
@@ -33,3 +34,9 @@ class Cube:
 
     def is_solved(self) -> bool:
         return self.stickers == SOLVED
+
+    @classmethod
+    def from_string(cls, stickers: str) -> "Cube":
+        """Build a Cube from outside input (e.g. a camera scan), rejecting illegal states."""
+        validate(stickers)
+        return cls(stickers)
